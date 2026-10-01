@@ -13,6 +13,7 @@ Estados de una ejecución (ToolRun.status):
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import time
@@ -80,7 +81,9 @@ def probe_version(binary: str, args: List[str], timeout: int = 20) -> Optional[s
     except (subprocess.TimeoutExpired, OSError):
         return None
     text = (p.stdout or p.stderr).decode("utf-8", "replace").strip().splitlines()
-    return sanitize_text(text[0], 120) if text else None
+    # solo es una versión si contiene un número de versión; un traceback/mensaje de error NO lo es
+    line = text[0] if text else ""
+    return sanitize_text(line, 120) if re.search(r"\d+\.\d+", line) and "Traceback" not in line else None
 
 
 def finish(run: Dict[str, Any], argv: Optional[List[str]], t0: float) -> Dict[str, Any]:
@@ -106,3 +109,13 @@ class ToolAdapter:
 
     def run(self, ctx: Dict[str, Any]) -> Dict[str, Any]:  # pragma: no cover - interfaz
         raise NotImplementedError
+
+
+def broken_tool(run: Dict[str, Any], det: Dict[str, Any], t0: float) -> Dict[str, Any]:
+    """El binario existe pero no responde a --version (entorno/permisos/certificados del cliente)."""
+    run["binary"] = det["binary"]
+    run["status"] = ERROR
+    run["error"] = ("El binario existe pero no pudo ejecutarse correctamente (su comando de versión falló). "
+                    "Suele deberse al entorno donde corre el cliente (sandbox, certificados o PATH); pruebe ejecutarlo "
+                    "desde una terminal normal.")
+    return finish(run, None, t0)

@@ -4,6 +4,7 @@ AC-10 (seis estados), AC-11 (herramienta faltante ≠ PASS), AC-12 (secreto sint
 """
 import json
 import os
+import sys
 import unittest
 from pathlib import Path
 
@@ -50,6 +51,18 @@ class TestAdapterStates(TmpCase):
         os.environ["SC_GITLEAKS_BIN"] = "/nonexistent/gitleaks"
         self.addCleanup(os.environ.pop, "SC_GITLEAKS_BIN", None)
         self.assertEqual(Gitleaks().run(ctx(self.tmp, self.proj))["status"], MISSING)
+
+    def test_binary_that_crashes_on_version_is_a_clear_error_not_a_silent_one(self):
+        """Caso real: semgrep dentro del sandbox de un cliente imprime un traceback en --version."""
+        broken = self.bin / "broken-semgrep"
+        broken.write_text(f"#!{sys.executable}\nimport sys\nprint('Traceback (most recent call last):'); sys.stderr.write('ca-certs: empty trust anchors'); sys.exit(1)\n")
+        broken.chmod(0o755)
+        os.environ["SC_SEMGREP_BIN"] = str(broken)
+        self.addCleanup(os.environ.pop, "SC_SEMGREP_BIN", None)
+        r = Semgrep().run(ctx(self.tmp, self.proj))
+        self.assertEqual(r["status"], ERROR)
+        self.assertIsNone(r["version"])
+        self.assertIn("no pudo ejecutarse", r["error"])
 
     def test_gitleaks_findings_drop_secret_and_match(self):
         run = self.run_gitleaks("findings")

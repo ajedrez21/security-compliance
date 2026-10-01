@@ -19,7 +19,7 @@ from typing import Any, Dict, List
 from ..catalog import by_id
 from ..findings import make_finding
 from ..redact import sanitize_text
-from .base import (CLEAN, ERROR, FINDINGS, INVALID, MISSING, TIMEOUT, ToolAdapter, execute, finish, new_run,
+from .base import (CLEAN, ERROR, FINDINGS, INVALID, MISSING, TIMEOUT, ToolAdapter, execute, finish, new_run, broken_tool,
                    norm_rel)
 
 
@@ -57,6 +57,8 @@ class Gitleaks(ToolAdapter):
             run["status"] = MISSING
             run["notes"].append("gitleaks no está instalado o no está en PATH (no se instala automáticamente).")
             return finish(run, None, t0)
+        if not det["version"]:
+            return broken_tool(run, det, t0)
         run["binary"], run["version"] = det["binary"], det["version"]
         ver = _version_tuple(det["version"] or "")
         if ver and ver < (8, 19, 0):

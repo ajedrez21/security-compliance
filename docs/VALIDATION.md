@@ -16,7 +16,7 @@ cd tests && python3 -m unittest discover -s . -v
 | git | 2.50.1 |
 | Scanners reales | Instalados con Homebrew el 2026-10-01 (autorizado por el usuario): Semgrep 1.176.0, Gitleaks 8.30.1, OSV-Scanner 2.6.0 |
 | Clientes instalados | Cursor 3.16.17, Claude Code 2.1.195 (CLI sin sesión iniciada), codex-cli 0.142.3 |
-| Resultado de la suite | **166 pruebas: 165 OK, 1 omitida** (comprobación cruzada opcional con `jsonschema`, no instalado), 0 fallos; con `SC_TEST_NETWORK=1`. Sin esa variable la prueba de OSV real también se omite |
+| Resultado de la suite | **168 pruebas: 167 OK, 1 omitida** (comprobación cruzada opcional con `jsonschema`, no instalado), 0 fallos; con `SC_TEST_NETWORK=1`. Sin esa variable la prueba de OSV real también se omite |
 
 ## Niveles de evidencia
 
