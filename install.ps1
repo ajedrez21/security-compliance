@@ -12,7 +12,7 @@
 #>
 [CmdletBinding()]
 param(
-  [ValidateSet('cursor', 'claude', 'codex')][string[]]$Client,
+  [ValidateSet('cursor', 'claude', 'codex', 'all')][string[]]$Client,
   [ValidateSet('global', 'project')][string]$Scope,
   [string]$ProjectPath,
   [ValidateSet('assisted', 'manual')][string]$Invocation = 'assisted',

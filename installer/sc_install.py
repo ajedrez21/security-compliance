@@ -245,7 +245,8 @@ def do_uninstall(dest: Path, *, force: bool, dry: bool) -> str:
 
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="install", description="Instala/actualiza/desinstala el skill security-compliance.")
-    ap.add_argument("--client", action="append", choices=list(clients.CLIENTS), help="cursor | claude | codex (repetible)")
+    ap.add_argument("--client", action="append", choices=list(clients.CLIENTS) + ["all"],
+                    help="cursor | claude | codex (repetible) | all (los tres a la vez)")
     ap.add_argument("--scope", choices=["global", "project"])
     ap.add_argument("--project-path", help="requerido con --scope project")
     ap.add_argument("--invocation", choices=["assisted", "manual"], default="assisted",
@@ -287,6 +288,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.update and args.uninstall:
             raise InstallError("--update y --uninstall son excluyentes.")
         prompt_missing(args)
+        if "all" in (args.client or []):
+            args.client = list(clients.CLIENTS)
         home = Path(args.home).expanduser().resolve() if args.home else Path.home()
         project = Path(args.project_path).expanduser().resolve() if args.project_path else None
         if args.scope == "project" and (project is None or not project.is_dir()):
@@ -321,6 +324,10 @@ def main(argv: Optional[List[str]] = None) -> int:
                          "claude": "  invocación manual: disable-model-invocation=true (la descripción no se carga en el contexto).",
                          "codex": "  invocación manual: agents/openai.yaml allow_implicit_invocation=false. Nota: Cursor también lee "
                                   ".agents/skills y no usa ese archivo."}[client])
+        done = {r[0] for r in results if r[2] in ("installed", "unchanged")}
+        if "cursor" in done and done & {"claude", "codex"} and not args.uninstall:
+            out("\nNota: Cursor también lee .claude/skills y .agents/skills; en Cursor el skill puede aparecer más de una vez "
+                "(es normal al instalar varios clientes; no se borra nada). Para evitarlo, instale solo claude y codex.")
         if not args.uninstall and not args.dry_run:
             others = [i for i in clients.find_installs(home, project)
                       if Path(str(i["skill_dir"])).resolve() not in {r[1].resolve() for r in results}]
