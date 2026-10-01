@@ -1,0 +1,15 @@
+# Política CONFIABLE de ejemplo (sintética). Debe vivir fuera del cambio evaluado: rama base protegida,
+# repositorio de políticas o almacenamiento de la organización. El YAML del PR no puede rebajarla.
+schema_version: 1
+project:
+  sox_scope: unknown          # defínalo según la organización; unknown nunca produce PASS en controles ITGC
+  repo: org/mi-repo           # necesario para validar que la evidencia pertenece al repositorio
+gate:
+  block_severities: [critical, high]
+  required_controls: [SEC-SECRETS-001, SEC-SAST-001]
+  unknown_required: block
+paths:
+  exclude: [node_modules, dist, build, .venv]
+trust:
+  agent_review: false         # una revisión de agente aportada con el PR no cuenta
+  user_supplied_evidence: false

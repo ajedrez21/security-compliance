@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "reviewer": {
+    "client": "cursor",
+    "model": "ejemplo",
+    "session": "EJEMPLO SINTÉTICO: copiar snapshot_hash del reporte de la ejecución previa"
+  },
+  "created_at": "2026-09-30T12:00:00Z",
+  "snapshot": {
+    "snapshot_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "scope_reviewed": [
+    "src/"
+  ],
+  "control_results": [
+    {
+      "control_id": "SEC-AUTHZ-001",
+      "status": "PASS",
+      "rationale": "Guard global APP_GUARD aplica JwtAuthGuard a todas las rutas; las públicas usan @Public() explícito.",
+      "files_examined": [
+        "src/app.module.ts",
+        "src/users/users.controller.ts"
+      ],
+      "limitations": "No se probó con distintos roles en ejecución."
+    },
+    {
+      "control_id": "SEC-INPUT-001",
+      "status": "FAIL",
+      "rationale": "La consulta concatena el parámetro 'name' del request sin parametrizar.",
+      "finding_refs": [
+        "f1"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "ref": "f1",
+      "control_id": "SEC-INPUT-001",
+      "title": "Concatenación de entrada en consulta SQL",
+      "severity": "high",
+      "confidence": "high",
+      "file": "src/users/users.repository.ts",
+      "start_line": 20,
+      "description": "El valor 'name' proveniente del query string se concatena en la sentencia SQL.",
+      "flow": "GET /users?name= → UsersController.find → UsersRepository.find → SQL concatenado → ejecución sin parámetros; no hay validación previa.",
+      "risk": "Inyección SQL con lectura/modificación de datos.",
+      "remediation": "Usar consultas parametrizadas."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "security-compliance finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "control_id", "title", "severity", "confidence", "origin", "description", "evidence", "risk",
+               "remediation", "mappings", "review_status", "baseline_status", "in_scope"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^F-[0-9a-f]{12}$"},
+    "control_id": {"type": "string", "pattern": "^[A-Z]+-[A-Z]+-[0-9]{3}$"},
+    "title": {"type": "string", "minLength": 1},
+    "severity": {"enum": ["critical", "high", "medium", "low", "info"]},
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "origin": {"enum": ["scanner", "heuristic", "local_observation", "agent_review", "user_supplied", "provider_verified"]},
+    "tool": {"type": ["string", "null"]},
+    "rule_id": {"type": ["string", "null"]},
+    "file": {"type": ["string", "null"]},
+    "start_line": {"type": ["integer", "null"]},
+    "end_line": {"type": ["integer", "null"]},
+    "description": {"type": "string"},
+    "evidence": {"type": "string", "description": "Evidencia saneada; nunca contiene valores de secretos."},
+    "risk": {"type": "string"},
+    "remediation": {"type": "string"},
+    "mappings": {"type": "array", "items": {"$ref": "#/$defs/mapping"}},
+    "review_status": {"enum": ["unreviewed", "confirmed", "false_positive", "accepted"]},
+    "baseline_status": {"enum": ["unknown", "introduced", "preexisting"], "description": "Solo introduced/preexisting con una comparación real contra una baseline."},
+    "in_scope": {"type": "boolean"},
+    "exception": {"type": ["object", "null"]}
+  },
+  "$defs": {
+    "mapping": {
+      "type": "object",
+      "required": ["framework", "version", "ref", "type", "validated"],
+      "properties": {
+        "framework": {"type": "string"},
+        "version": {"type": "string"},
+        "ref": {"type": "string"},
+        "type": {"enum": ["exact", "thematic"]},
+        "validated": {"type": "boolean"},
+        "level": {"type": "integer"},
+        "source": {"type": "string"},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,782 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "security-compliance report",
+  "description": "Contrato JSON de una ejecución. Revisión de controles técnicos: NO es una certificación ISO/SOX ni una verificación de nivel ASVS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "generated_at",
+    "command",
+    "mode",
+    "skill",
+    "catalog",
+    "project",
+    "snapshot",
+    "config",
+    "stacks",
+    "controls",
+    "findings",
+    "scanners",
+    "evidence",
+    "agent_review",
+    "coverage",
+    "gate",
+    "limitations",
+    "warnings",
+    "disclaimer"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "command": {
+      "enum": [
+        "audit",
+        "diff",
+        "pr",
+        "sox",
+        "iso",
+        "security",
+        "secrets",
+        "dependencies"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "advisory",
+        "enforce"
+      ]
+    },
+    "skill": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "const": "security-compliance"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "required": [
+        "version",
+        "baselines"
+      ],
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "baselines": {
+          "type": "object"
+        }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "name",
+        "root",
+        "git"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "root": {
+          "type": "string"
+        },
+        "repo": {
+          "type": "string"
+        },
+        "criticality": {
+          "type": "string"
+        },
+        "sox_scope": {
+          "enum": [
+            "unknown",
+            "yes",
+            "no"
+          ]
+        },
+        "git": {
+          "type": "object",
+          "required": [
+            "is_repo"
+          ],
+          "properties": {
+            "is_repo": {
+              "type": "boolean"
+            },
+            "head_sha": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "branch": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "base": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "merge_base": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "dirty": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "shallow": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "required": [
+        "snapshot_hash",
+        "file_count",
+        "excluded_count",
+        "consistent",
+        "scope"
+      ],
+      "properties": {
+        "snapshot_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "snapshot_hash_end": {
+          "type": "string"
+        },
+        "file_count": {
+          "type": "integer"
+        },
+        "excluded_count": {
+          "type": "integer"
+        },
+        "skipped_count": {
+          "type": "integer"
+        },
+        "consistent": {
+          "type": "boolean"
+        },
+        "scope": {
+          "enum": [
+            "full",
+            "changed_files"
+          ]
+        },
+        "changed_files": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "inventory_file": {
+          "type": "string"
+        },
+        "exclusions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "required": [
+        "hash",
+        "policy_source",
+        "effective"
+      ],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "policy_source": {
+          "enum": [
+            "defaults",
+            "project_config",
+            "trusted_policy"
+          ]
+        },
+        "config_file": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "policy_file": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effective": {
+          "type": "object"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "stacks": {
+      "type": "object"
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "control_id",
+          "title",
+          "status",
+          "reason",
+          "source",
+          "provenance",
+          "finding_ids",
+          "evidence_ids",
+          "required"
+        ],
+        "properties": {
+          "control_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "UNKNOWN",
+              "NOT_APPLICABLE",
+              "NOT_RUN",
+              "ERROR"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "finding_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "selection": {
+            "type": "string"
+          },
+          "supporting": {
+            "type": "boolean"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exception": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "scanners": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "tool",
+          "capability",
+          "status"
+        ]
+      }
+    },
+    "dependencies": {
+      "type": "object"
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "provided",
+        "files",
+        "items"
+      ],
+      "properties": {
+        "provided": {
+          "type": "boolean"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "authenticity_note": {
+          "type": "string"
+        }
+      }
+    },
+    "agent_review": {
+      "type": "object",
+      "required": [
+        "provided",
+        "accepted"
+      ],
+      "properties": {
+        "provided": {
+          "type": "boolean"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "reviewer": {
+          "type": "object"
+        },
+        "file": {
+          "type": "string"
+        },
+        "rejected_entries": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "provenance": {
+          "const": "agent_review"
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "controls_selected",
+        "by_status",
+        "scanners",
+        "asvs"
+      ],
+      "properties": {
+        "controls_selected": {
+          "type": "integer"
+        },
+        "by_status": {
+          "type": "object"
+        },
+        "scanners": {
+          "type": "object"
+        },
+        "asvs": {
+          "type": "object"
+        },
+        "files_in_scope": {
+          "type": "integer"
+        },
+        "statement": {
+          "type": "string"
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "status",
+        "mode",
+        "exit_code",
+        "reasons",
+        "blocking_findings",
+        "blocking_controls",
+        "incomplete_controls",
+        "policy"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PASS",
+            "PASS_WITH_WARNINGS",
+            "BLOCKED",
+            "INCOMPLETE"
+          ]
+        },
+        "mode": {
+          "enum": [
+            "advisory",
+            "enforce"
+          ]
+        },
+        "exit_code": {
+          "enum": [
+            0,
+            1,
+            3
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocking_findings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocking_controls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "incomplete_controls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policy": {
+          "type": "object"
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disclaimer": {
+      "type": "string"
+    },
+    "progress": {
+      "type": "object",
+      "description": "Comparación con la ejecución anterior del mismo comando/proyecto. 'resolved' solo si el control se reverificó.",
+      "required": [
+        "has_previous"
+      ],
+      "properties": {
+        "has_previous": {
+          "type": "boolean"
+        },
+        "previous_run_id": {
+          "type": "string"
+        },
+        "resolved": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "persistent": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "new": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "not_reverified": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "control_changes": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "description": "Resumen de ejecuciones anteriores (más antigua primero, hasta 19).",
+      "items": {
+        "type": "object",
+        "required": [
+          "run_id",
+          "generated_at",
+          "gate",
+          "findings",
+          "controls"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "finding": {
+      "title": "security-compliance finding",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "control_id",
+        "title",
+        "severity",
+        "confidence",
+        "origin",
+        "description",
+        "evidence",
+        "risk",
+        "remediation",
+        "mappings",
+        "review_status",
+        "baseline_status",
+        "in_scope"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^F-[0-9a-f]{12}$"
+        },
+        "control_id": {
+          "type": "string",
+          "pattern": "^[A-Z]+-[A-Z]+-[0-9]{3}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low",
+            "info"
+          ]
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "origin": {
+          "enum": [
+            "scanner",
+            "heuristic",
+            "local_observation",
+            "agent_review",
+            "user_supplied",
+            "provider_verified"
+          ]
+        },
+        "tool": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rule_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "file": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "start_line": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "end_line": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string",
+          "description": "Evidencia saneada; nunca contiene valores de secretos."
+        },
+        "risk": {
+          "type": "string"
+        },
+        "remediation": {
+          "type": "string"
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/mapping"
+          }
+        },
+        "review_status": {
+          "enum": [
+            "unreviewed",
+            "confirmed",
+            "false_positive",
+            "accepted"
+          ]
+        },
+        "baseline_status": {
+          "enum": [
+            "unknown",
+            "introduced",
+            "preexisting"
+          ],
+          "description": "Solo introduced/preexisting con una comparación real contra una baseline."
+        },
+        "in_scope": {
+          "type": "boolean"
+        },
+        "exception": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "required": [
+        "framework",
+        "version",
+        "ref",
+        "type",
+        "validated"
+      ],
+      "properties": {
+        "framework": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "exact",
+            "thematic"
+          ]
+        },
+        "validated": {
+          "type": "boolean"
+        },
+        "level": {
+          "type": "integer"
+        },
+        "source": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

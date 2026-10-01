@@ -1,0 +1,49 @@
+# EJEMPLO (no activado). Cópielo a .github/workflows/security-compliance.yml y reemplace los marcadores <…>.
+# Un YAML en el repositorio NO vuelve obligatorio un check: hay que marcarlo como requerido en la protección
+# de rama (Settings → Branches → Require status checks). Este archivo no configura esa protección.
+name: security-compliance
+on:
+  pull_request:            # NO usar pull_request_target con código no confiable
+permissions:
+  contents: read           # sin secretos ni permisos de escritura al procesar PRs
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout del PR (head)
+        uses: actions/checkout@<SHA-fijado>
+        with:
+          fetch-depth: 0               # el skill no hace fetch; necesita historial para el merge-base
+          path: pr
+          persist-credentials: false
+      - name: Política confiable desde la rama BASE (no desde el PR)
+        uses: actions/checkout@<SHA-fijado>
+        with:
+          ref: ${{ github.base_ref }}
+          path: trusted
+          persist-credentials: false
+          sparse-checkout: .github/security-compliance
+      - name: Skill (versión fijada por SHA)
+        uses: actions/checkout@<SHA-fijado>
+        with:
+          repository: <org>/security-compliance-skill
+          ref: <SHA-del-commit-o-tag-firmado>
+          path: skill
+          persist-credentials: false
+      - uses: actions/setup-python@<SHA-fijado>
+        with:
+          python-version: '3.12'
+      # Scanners: instale versiones fijadas (no latest). Ejemplo ilustrativo; verifique el método oficial de cada herramienta.
+      # - run: pipx install semgrep==<versión>
+      # - run: <instalar gitleaks <versión> con checksum verificado>
+      - name: Gate
+        run: |
+          sh skill/integrations/ci/gate.sh skill pr trusted/.github/security-compliance/policy.yml reports "origin/${{ github.base_ref }}"
+      - name: Conservar reportes saneados
+        if: always()
+        uses: actions/upload-artifact@<SHA-fijado>
+        with:
+          name: security-compliance-reports
+          path: reports/
+          retention-days: 30

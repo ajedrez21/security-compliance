@@ -1,0 +1,118 @@
+# security-compliance — reglas Semgrep locales (conjunto mínimo propio, versión 1.0.0).
+# Se ejecutan sin red ni registro. NO sustituyen a un SAST completo.
+# Estado: validadas con `semgrep --validate` y ejecutadas con Semgrep 1.176.0 (ver docs/VALIDATION.md).
+rules:
+  - id: sc.python.subprocess-shell-true
+    message: subprocess con shell=True; si el comando incluye datos externos permite inyección de comandos.
+    severity: WARNING
+    languages: [python]
+    pattern: subprocess.$FUNC(..., shell=True, ...)
+    metadata:
+      cwe: ["CWE-78"]
+      confidence: MEDIUM
+  - id: sc.python.eval-exec
+    message: Uso de eval/exec; evaluar código dinámico con datos externos permite ejecución de código.
+    severity: WARNING
+    languages: [python]
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)
+    metadata:
+      cwe: ["CWE-95"]
+      confidence: MEDIUM
+  - id: sc.python.yaml-load-unsafe
+    message: yaml.load sin Loader seguro puede instanciar objetos arbitrarios; use yaml.safe_load.
+    severity: ERROR
+    languages: [python]
+    pattern: yaml.load($X)
+    metadata:
+      cwe: ["CWE-502"]
+      confidence: HIGH
+  - id: sc.python.pickle-loads
+    message: Deserialización con pickle; nunca usar con datos no confiables.
+    severity: WARNING
+    languages: [python]
+    pattern-either:
+      - pattern: pickle.loads(...)
+      - pattern: pickle.load(...)
+    metadata:
+      cwe: ["CWE-502"]
+      confidence: MEDIUM
+  - id: sc.python.weak-hash
+    message: Uso de MD5/SHA1; no son adecuados para seguridad (contraseñas, firmas).
+    severity: WARNING
+    languages: [python]
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.sha1(...)
+    metadata:
+      cwe: ["CWE-327"]
+      confidence: LOW
+  - id: sc.python.requests-verify-false
+    message: Verificación TLS desactivada (verify=False).
+    severity: ERROR
+    languages: [python]
+    pattern: requests.$F(..., verify=False, ...)
+    metadata:
+      cwe: ["CWE-295"]
+      confidence: HIGH
+  - id: sc.js.eval
+    message: Uso de eval; permite ejecución de código si recibe datos externos.
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern: eval(...)
+    metadata:
+      cwe: ["CWE-95"]
+      confidence: MEDIUM
+  - id: sc.js.innerhtml-assignment
+    message: Asignación a innerHTML; riesgo de XSS si el valor no está saneado.
+    severity: WARNING
+    languages: [javascript, typescript]
+    pattern: $EL.innerHTML = $X
+    metadata:
+      cwe: ["CWE-79"]
+      confidence: LOW
+  - id: sc.js.tls-reject-unauthorized-false
+    message: Verificación de certificados TLS desactivada (rejectUnauthorized false).
+    severity: ERROR
+    languages: [javascript, typescript]
+    pattern: "{..., rejectUnauthorized: false, ...}"
+    metadata:
+      cwe: ["CWE-295"]
+      confidence: HIGH
+  - id: sc.java.weak-digest
+    message: Algoritmo de resumen débil (MD5/SHA-1).
+    severity: WARNING
+    languages: [java]
+    pattern-either:
+      - pattern: MessageDigest.getInstance("MD5")
+      - pattern: MessageDigest.getInstance("SHA-1")
+    metadata:
+      cwe: ["CWE-327"]
+      confidence: LOW
+  - id: sc.java.runtime-exec
+    message: Runtime.exec; si el comando incluye datos externos permite inyección de comandos.
+    severity: WARNING
+    languages: [java]
+    pattern: Runtime.getRuntime().exec(...)
+    metadata:
+      cwe: ["CWE-78"]
+      confidence: MEDIUM
+  - id: sc.csharp.binaryformatter
+    message: BinaryFormatter es inseguro para deserializar datos no confiables.
+    severity: ERROR
+    languages: [csharp]
+    pattern: new BinaryFormatter(...)
+    metadata:
+      cwe: ["CWE-502"]
+      confidence: HIGH
+  - id: sc.csharp.weak-hash
+    message: Uso de MD5/SHA1; no son adecuados para seguridad.
+    severity: WARNING
+    languages: [csharp]
+    pattern-either:
+      - pattern: MD5.Create()
+      - pattern: SHA1.Create()
+    metadata:
+      cwe: ["CWE-327"]
+      confidence: LOW

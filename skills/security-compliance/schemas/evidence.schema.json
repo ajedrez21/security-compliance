@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "security-compliance evidence bundle",
+  "description": "Evidencia de PR/CI/proceso importada sin conexión. La procedencia declarada nunca eleva la confianza: sin conector real el máximo es user_supplied.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "collected_at", "items"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo"],
+      "properties": {"repo": {"type": "string", "minLength": 1, "maxLength": 300}}
+    },
+    "pull_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "number": {"type": "integer", "minimum": 0},
+        "head_sha": {"type": "string", "pattern": "^[0-9a-fA-F]{7,64}$"},
+        "base_sha": {"type": "string", "pattern": "^[0-9a-fA-F]{7,64}$"}
+      }
+    },
+    "collected_at": {"type": "string", "format": "date-time"},
+    "collector": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {"name": {"type": "string", "maxLength": 200}, "method": {"type": "string", "maxLength": 300}}
+    },
+    "items": {"type": "array", "items": {"$ref": "#/$defs/item"}}
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "provenance", "source", "subject", "timestamp"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 120},
+        "type": {"enum": ["pr_metadata", "pr_approval", "ci_run", "branch_protection", "deployment_record",
+                          "change_ticket", "access_review", "operation_evidence", "emergency_change",
+                          "organizational"]},
+        "provenance": {"enum": ["local_observation", "scanner", "agent_review", "user_supplied", "provider_verified"]},
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["system", "ref"],
+          "properties": {"system": {"type": "string", "maxLength": 100}, "ref": {"type": "string", "maxLength": 500}}
+        },
+        "subject": {"type": "string", "maxLength": 300},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-fA-F]{7,64}$"},
+        "artifact": {"type": "string", "maxLength": 300},
+        "timestamp": {"type": "string", "format": "date-time"},
+        "result": {"enum": ["pass", "fail", "not_applicable", "unknown"]},
+        "details": {"type": "object"}
+      }
+    }
+  }
+}

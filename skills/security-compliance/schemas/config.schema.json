@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "security-compliance project configuration",
+  "description": "Esquema de .security-compliance.yml. No admite campos ejecutables (command, script, run, hooks).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "maxLength": 120},
+        "repo": {"type": "string", "maxLength": 300, "description": "org/repo o URL del remoto; se usa para validar la pertenencia de la evidencia."},
+        "criticality": {"enum": ["unknown", "low", "medium", "high", "critical"]},
+        "sox_scope": {"enum": ["unknown", "yes", "no"]},
+        "contains_pii": {"enum": ["unknown", "yes", "no"]},
+        "contains_financial_data": {"enum": ["unknown", "yes", "no"]}
+      }
+    },
+    "frameworks": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["security", "iso27001", "sox_itgc", "owasp_asvs"]}
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {"enum": ["es", "en"]},
+        "invocation": {"enum": ["assisted", "manual"]},
+        "mode": {"enum": ["advisory", "enforce"]},
+        "asvs_target_level": {"enum": [1, 2, 3]}
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allow_external_scanners": {"type": "boolean"}
+      }
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sast": {"enum": ["auto", "off", "semgrep"]},
+        "secrets": {"enum": ["auto", "off", "gitleaks"]},
+        "dependencies": {"enum": ["auto", "off", "osv-scanner"]},
+        "timeout_seconds": {"type": "integer", "minimum": 5, "maximum": 3600}
+      }
+    },
+    "itgc": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "min_approvals": {"type": "integer", "minimum": 1, "maximum": 10},
+        "emergency_change_policy": {"enum": ["unknown", "yes", "no"]}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "block_severities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["critical", "high", "medium", "low", "info"]}
+        },
+        "required_controls": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z]+-[A-Z]+-[0-9]{3}$"}
+        },
+        "unknown_required": {"enum": ["block", "incomplete"]}
+      }
+    },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "include": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "exclude": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "reports": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "directory": {"type": "string", "minLength": 1}
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/exception"}
+    },
+    "trust": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Solo se respeta desde una política confiable (--policy); en el YAML del proyecto se ignora.",
+      "properties": {
+        "agent_review": {"type": "boolean"},
+        "user_supplied_evidence": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "exception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "reason", "owner", "expires", "scope"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 80},
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "control_id": {"type": "string"},
+            "finding_id": {"type": "string"},
+            "file": {"type": "string"}
+          }
+        },
+        "reason": {"type": "string", "minLength": 10, "maxLength": 1000},
+        "owner": {"type": "string", "minLength": 1, "maxLength": 200},
+        "expires": {"type": "string", "format": "date"},
+        "origin": {"type": "string", "maxLength": 300, "description": "Referencia de aprobación (ticket, política)."}
+      }
+    }
+  }
+}
