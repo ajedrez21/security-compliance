@@ -1,0 +1,3021 @@
+{
+ "schema_version": 1,
+ "catalog_version": "1.0.0",
+ "baselines": {
+  "owasp_asvs": "5.0.0",
+  "iso27001": "2022",
+  "sox_itgc": "1.0"
+ },
+ "controls": [
+  {
+   "id": "SEC-AUTHN-001",
+   "title": "Validación de tokens y emisor/audiencia",
+   "objective": "Los tokens autoportados (JWT u otros) se verifican con firma, algoritmo permitido, emisor, audiencia y expiración.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Localizar dónde se emiten y se verifican tokens (middleware, guards, filtros, librerías).",
+    "Comprobar que la firma se verifica (no solo se decodifica) y que existe una lista de algoritmos permitidos (rechazar 'none').",
+    "Comprobar validación de iss, aud y exp/nbf; las claves provienen de una fuente de confianza.",
+    "Documentar flujo: entrada del token → verificación → uso de claims."
+   ],
+   "evidence_required": [
+    "Fragmentos de código de verificación",
+    "Configuración del validador"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "No evalúa la gestión de claves del IdP ni su rotación operativa."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V9.1.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V9.1.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V9.1.3",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V9.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V9.2.3",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-AUTHN-002",
+   "title": "Sesiones y cookies seguras",
+   "objective": "Las sesiones se generan, rotan y terminan de forma segura y las cookies usan atributos de protección.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Identificar el mecanismo de sesión (cookie de sesión, token de referencia).",
+    "Verificar atributos Secure/HttpOnly/SameSite, regeneración de sesión al autenticar y terminación en logout.",
+    "Revisar revocación/expiración y tiempos de inactividad documentados."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La configuración efectiva de producción puede diferir del código."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V7.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V7.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V7.2.4",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V7.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.3.4",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-AUTHN-003",
+   "title": "Autenticación: fuerza bruta y cuentas por defecto",
+   "objective": "Existen controles contra ataques de credenciales y no se dejan cuentas o credenciales por defecto.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar flujos de login/registro/recuperación y sus límites de intentos.",
+    "Verificar que no existan usuarios o contraseñas por defecto en código, seeds o migraciones.",
+    "Verificar que las respuestas no revelen si el usuario existe cuando corresponda."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V6.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V6.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V6.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-AUTHZ-001",
+   "title": "Autorización a nivel de función y de servicio",
+   "objective": "Cada operación sensible aplica reglas de autorización en una capa de servicio de confianza.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Enumerar rutas/handlers y operaciones sensibles (cambios de estado, administración, datos).",
+    "Seguir la cadena completa: guards/middleware/filtros globales, políticas, decoradores de clase y servicio.",
+    "No marcar vulnerable un handler solo por no tener decorador local si existe un control global o de capa de servicio.",
+    "Documentar: entrada, flujo, operación sensible, control existente y condición de explotación."
+   ],
+   "evidence_required": [
+    "Rutas y guards revisados",
+    "Política global de autorización"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La revisión estática no reemplaza pruebas de autorización dinámicas con distintos roles."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V8.1.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V8.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V8.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-AUTHZ-002",
+   "title": "Acceso por objeto y aislamiento entre tenants",
+   "objective": "El acceso a cada objeto se restringe según el sujeto y los atributos del recurso; los tenants están aislados.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Identificar identificadores de objeto recibidos del cliente (ids en ruta, query, body).",
+    "Verificar que la consulta/servicio filtra por propietario/tenant o valida pertenencia (IDOR/BOLA).",
+    "Revisar rutas administrativas y accesos entre tenants."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Requiere entender el modelo de datos; sin él, usar UNKNOWN."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V8.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V8.2.3",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V8.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-INPUT-001",
+   "title": "Consultas parametrizadas (inyección SQL/NoSQL)",
+   "objective": "Los datos no confiables nunca se concatenan en consultas; se usan consultas parametrizadas o ORM seguro.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar construcción de consultas (concatenación, interpolación, raw queries, FromSqlRaw, $queryRaw).",
+    "Trazar el origen de los datos hasta la consulta; confirmar si pasa por parámetros.",
+    "Registrar los casos con cadenas dinámicas y su fuente (usuario vs constante)."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.2.4",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-INPUT-002",
+   "title": "Codificación de salida y XSS",
+   "objective": "La salida se codifica según el contexto y el HTML no confiable se sanea.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar sinks de HTML (innerHTML, dangerouslySetInnerHTML, v-html, [innerHTML], bypassSecurityTrust*, Html.Raw).",
+    "Verificar el origen del dato y si pasa por sanitización/encoding.",
+    "Revisar plantillas que desactivan el escape automático."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.1.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-INPUT-003",
+   "title": "Inyección de comandos, código dinámico y deserialización",
+   "objective": "No se ejecutan comandos ni código dinámico con datos no confiables y la deserialización es segura.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar eval/exec/Function, subprocess con shell, Runtime.exec, Process.Start, pickle/yaml.load/BinaryFormatter.",
+    "Trazar el origen de los argumentos; confirmar listas permitidas o escape.",
+    "Revisar parsers XML (XXE) y deserializadores de objetos."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.2.5",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.5.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.5.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-INPUT-004",
+   "title": "Validación de entrada en capa de servicio de confianza",
+   "objective": "La validación se aplica en el servidor y limita formato, rango y flujo de negocio.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Identificar DTOs/modelos de entrada y su validación (pipes, validators, schemas).",
+    "Verificar que la validación no depende solo del cliente.",
+    "Revisar que flujos de negocio multi-paso verifican el orden/estado."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V2.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V2.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V2.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-API-001",
+   "title": "CORS y CSRF",
+   "objective": "CORS no confía en orígenes arbitrarios y las operaciones con cookies tienen protección CSRF cuando aplica.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar configuración CORS (orígenes, credenciales, comodines reflejados).",
+    "Si se usan cookies de sesión, verificar tokens anti-CSRF/SameSite en operaciones que cambian estado.",
+    "Verificar métodos HTTP apropiados para operaciones sensibles."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.4.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.5.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.5.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.5.3",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-API-002",
+   "title": "SSRF y llamadas a recursos externos",
+   "objective": "Las solicitudes salientes con URLs controladas por el usuario usan listas de destinos permitidos.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar clientes HTTP con URL derivada de entrada (fetch/axios/HttpClient/requests).",
+    "Verificar allowlist de hosts, bloqueo de redes internas y redirecciones."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V1.3.6",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.2.4",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-API-003",
+   "title": "Límites de consumo y anti-automatización",
+   "objective": "Existen límites de tasa/tamaño para evitar abuso de recursos y automatización excesiva.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Identificar endpoints costosos o de autenticación y los límites aplicados (rate limit, tamaño, paginación)."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V2.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-API-004",
+   "title": "Exposición excesiva de datos y mass assignment",
+   "objective": "Las respuestas devuelven solo los campos necesarios y los modelos no se enlazan ciegamente desde la entrada.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar serializadores/DTOs de salida y devolución directa de entidades.",
+    "Revisar binding automático de entrada a entidades (campos como role/isAdmin)."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.3.3",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V14.2.6",
+     "type": "exact",
+     "validated": true,
+     "level": 3,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-FILE-001",
+   "title": "Subida de archivos: tamaño, tipo y almacenamiento",
+   "objective": "Los archivos subidos se limitan por tamaño y tipo y se almacenan fuera de rutas ejecutables.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Localizar handlers de upload y sus límites.",
+    "Verificar validación de tipo por contenido y destino de almacenamiento."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V5.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V5.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V5.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-FILE-002",
+   "title": "Nombres de archivo y path traversal",
+   "objective": "Las rutas construidas con datos del usuario no permiten salir del directorio previsto.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar construcción de rutas con entrada (path.join, Path.Combine, open) y su normalización/validación."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V5.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V5.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V5.4.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-SECRETS-001",
+   "title": "Sin secretos embebidos en el alcance",
+   "objective": "El alcance revisado no contiene credenciales, claves privadas ni tokens en claro.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "scanner",
+   "scanner_capability": "secrets",
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Resultado del scanner de secretos con versión y alcance"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Un scan del árbol de trabajo no cubre secretos ya presentes en el historial Git.",
+    "Las heurísticas de regex aportan candidatos pero no sustituyen al scanner.",
+    "Las supresiones inline del scanner (p. ej. gitleaks:allow) se informan como advertencia."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.3.1",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.24",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: uso de criptografía y gestión de claves. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-CRYPTO-001",
+   "title": "Algoritmos criptográficos, hashing y aleatoriedad",
+   "objective": "Se usan algoritmos aprobados, hashing de contraseñas adecuado y generadores aleatorios seguros.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar MD5/SHA1/DES/ECB, Math.random/random para tokens, hashing de contraseñas.",
+    "Verificar uso de bibliotecas validadas y parámetros del KDF."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V11.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V11.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V11.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V11.4.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V11.5.1",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-CRYPTO-002",
+   "title": "TLS y validación de certificados",
+   "objective": "Las comunicaciones usan TLS y los clientes validan certificados.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar desactivación de verificación (rejectUnauthorized:false, verify=False, ServerCertificateCustomValidationCallback).",
+    "Revisar URLs http:// para servicios no locales y configuración TLS de servidores."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V12.1.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V12.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V12.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-DATA-001",
+   "title": "Datos sensibles y minimización",
+   "objective": "Los datos sensibles no se envían en URL, no se registran en claro y se minimizan.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Buscar logging de objetos completos, headers de autorización, PII y credenciales.",
+    "Verificar que datos sensibles no viajan en query strings ni se cachean."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La clasificación de datos depende de project.contains_pii/contains_financial_data."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V14.2.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V14.2.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V16.2.5",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-LOG-001",
+   "title": "Eventos de seguridad auditables",
+   "objective": "Autenticación, fallos de autorización y eventos de seguridad quedan registrados.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Verificar registro de login exitoso/fallido, denegaciones de autorización y cambios administrativos."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V16.3.1",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V16.3.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V16.3.3",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-LOG-002",
+   "title": "Manejo de errores y modo debug",
+   "objective": "Los errores no filtran detalles internos y el modo debug está desactivado en producción.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar manejadores globales de errores, stack traces expuestos y flags DEBUG en configuración productiva."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V16.5.1",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V16.5.3",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.4.2",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-WEB-001",
+   "title": "Cabeceras de seguridad del navegador",
+   "objective": "Las respuestas web incluyen cabeceras de protección apropiadas (HSTS, CSP, nosniff, referrer).",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar middleware (helmet, headers de ASP.NET, configuración del proxy) y política CSP."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Las cabeceras efectivas pueden añadirse en un proxy/CDN fuera del repositorio."
+   ],
+   "default_severity": "low",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.4.1",
+     "type": "exact",
+     "validated": true,
+     "level": 1,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.4.3",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.4.4",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    },
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V3.4.5",
+     "type": "exact",
+     "validated": true,
+     "level": 2,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30"
+    }
+   ]
+  },
+  {
+   "id": "SEC-DB-001",
+   "title": "Base de datos: roles mínimos y migraciones destructivas",
+   "objective": "La aplicación usa cuentas de mínimo privilegio y las migraciones destructivas se identifican y revisan.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar cadenas/roles de conexión (usuario administrador vs de aplicación).",
+    "Listar migraciones con DROP/TRUNCATE/ALTER destructivo y su procedimiento de revisión."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Los privilegios reales en la base de datos no son visibles desde el código."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.3.2",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.3",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: restricción de acceso a la información. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-SAST-001",
+   "title": "Análisis estático (SAST) sin hallazgos bloqueantes",
+   "objective": "Un scanner SAST real analiza el alcance y no reporta hallazgos sobre el umbral.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "scanner",
+   "scanner_capability": "sast",
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Resultado SAST con versión de herramienta y reglas"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Las reglas locales incluidas son un conjunto mínimo propio, no un SAST completo.",
+    "Sin un scanner SAST real el control queda NOT_RUN; las heurísticas no lo reemplazan."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.3.5",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.29",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: pruebas de seguridad en desarrollo. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-DEPS-001",
+   "title": "Dependencias sin vulnerabilidades conocidas",
+   "objective": "Las dependencias directas y transitivas se consultan contra una base de vulnerabilidades.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "scanner",
+   "scanner_capability": "dependencies",
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Resultado del scanner de dependencias, fecha/versión de la base"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La consulta requiere red (network.allow_external_scanners) o una base offline.",
+    "Sin lockfile solo se evalúan versiones declaradas, no las resueltas."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.2.1",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.8",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de vulnerabilidades técnicas. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-DEPS-002",
+   "title": "Lockfiles presentes para los manifiestos",
+   "objective": "Cada manifiesto de dependencias tiene un lockfile que fija las versiones resueltas.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "local",
+   "scanner_capability": null,
+   "local_check": "lockfiles",
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Maven no tiene lockfile estándar: esos manifiestos se informan sin evaluar."
+   ],
+   "default_severity": "low",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.1.2",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    }
+   ]
+  },
+  {
+   "id": "SEC-INFRA-001",
+   "title": "Contenedores sin ejecución como root",
+   "objective": "Los Dockerfiles establecen un usuario no root para el proceso final.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [
+     "docker"
+    ],
+    "note": "Se marca NOT_APPLICABLE si no se detecta el stack requerido en el alcance."
+   },
+   "method": "local",
+   "scanner_capability": null,
+   "local_check": "docker_root",
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Solo analiza instrucciones USER del último stage; imágenes base con usuario no root implícito requieren revisión manual."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.2.6",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.9",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de la configuración. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-INFRA-002",
+   "title": "Imágenes base fijadas",
+   "objective": "Las imágenes base no usan la etiqueta 'latest' ni quedan sin versión.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [
+     "docker"
+    ],
+    "note": "Se marca NOT_APPLICABLE si no se detecta el stack requerido en el alcance."
+   },
+   "method": "local",
+   "scanner_capability": null,
+   "local_check": "docker_pin",
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "No verifica digests ni la procedencia de la imagen."
+   ],
+   "default_severity": "low",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V15.2.4",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.9",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de la configuración. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-INFRA-003",
+   "title": "Kubernetes/OpenShift: contexto de seguridad y secretos",
+   "objective": "Los manifiestos limitan privilegios (runAsNonRoot, sin privileged, límites) y no incluyen secretos en claro.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [
+     "kubernetes",
+     "openshift"
+    ],
+    "note": "Se marca NOT_APPLICABLE si no se detecta el stack requerido en el alcance."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar securityContext, privileged, hostPath/hostNetwork, capabilities, requests/limits.",
+    "Revisar Secrets con data/stringData en claro y variables de entorno con credenciales."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La política efectiva del clúster (admission, SCC) no es visible desde los manifiestos."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.2.6",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.9",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de la configuración. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "SEC-INFRA-004",
+   "title": "Separación de ambientes y configuración",
+   "objective": "La configuración por ambiente está separada y no mezcla credenciales o endpoints de producción en el código.",
+   "domain": "security",
+   "version": "1.0.0",
+   "frameworks": [
+    "security",
+    "owasp_asvs",
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Revisar archivos de configuración por ambiente y la gestión de secretos por ambiente."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "owasp_asvs",
+     "version": "5.0.0",
+     "ref": "V13.4.1",
+     "type": "thematic",
+     "validated": true,
+     "source": "OWASP ASVS 5.0.0 (v5.0.0_release), consultado 2026-09-30",
+     "note": "El ID existe en la baseline; la relación con el control es temática."
+    },
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.31",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: separación de entornos. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-001",
+   "title": "Trazabilidad ticket → cambio → PR",
+   "objective": "Cada cambio en alcance se vincula a un requerimiento/ticket y a un PR identificables.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "pr_metadata"
+   ],
+   "evidence_rule": "traceability",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Metadatos del PR con tickets vinculados"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La existencia de un ticket no prueba su aprobación ni su vigencia."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: trazabilidad",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-002",
+   "title": "Aprobación independiente vigente sobre el cambio efectivo",
+   "objective": "El cambio fue aprobado por una persona distinta del autor y la aprobación corresponde al commit final.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "pr_approval"
+   ],
+   "evidence_rule": "approval",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Aprobaciones con actor, estado y commit asociado"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La identidad del aprobador no se verifica sin un conector autenticado; el autor de un commit no es una identidad autenticada."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: aprobación independiente",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-003",
+   "title": "Resultados de pruebas vinculados al commit exacto",
+   "objective": "Las pruebas automatizadas se ejecutaron con éxito sobre el commit evaluado.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "ci_run"
+   ],
+   "evidence_rule": "ci_test",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Ejecución de CI con conclusión y commit_sha"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La presencia de un workflow no prueba que se haya ejecutado con éxito."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: pruebas",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-004",
+   "title": "Protección de ramas sin bypass",
+   "objective": "La rama de integración exige revisión y no permite omitirla sin registro.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "branch_protection"
+   ],
+   "evidence_rule": "branch_protection",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Configuración de protección de rama exportada del proveedor"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Una rama local no prueba protección remota; el workflow/CODEOWNERS no equivale a la configuración del proveedor."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: protección de ramas y de su política",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-005",
+   "title": "Despliegue trazable al artefacto y al commit",
+   "objective": "Cada despliegue registra artefacto/commit desplegado, aprobador y ejecutor.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "deployment_record"
+   ],
+   "evidence_rule": "deployment",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Registro de despliegue con commit, artefacto, aprobador y ejecutor"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: despliegue",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-006",
+   "title": "Revisión de cambios a base de datos y lógica financiera",
+   "objective": "Las migraciones y cambios a lógica financiera, reportes o integridad de datos reciben revisión específica.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "agent",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [],
+   "review_procedure": [
+    "Identificar migraciones y módulos de cálculo/reporte financiero en el diff.",
+    "Revisar integridad (transacciones, restricciones), reversibilidad y pruebas asociadas.",
+    "Registrar qué quedó sin evidencia de revisión humana."
+   ],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "La revisión del agente no reemplaza la aprobación independiente (ITGC-CHG-002)."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: cambios de datos y lógica crítica",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-CHG-007",
+   "title": "Cambios de emergencia con evidencia posterior",
+   "objective": "Si la política admite cambios de emergencia, existe evidencia de revisión posterior.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "emergency_change"
+   ],
+   "evidence_rule": "emergency",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Depende de itgc.emergency_change_policy; con 'unknown' el estado es UNKNOWN."
+   ],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Gestión de cambios: cambios de emergencia",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-ACC-001",
+   "title": "Separación de funciones y revisión de accesos",
+   "objective": "Los accesos a repositorio, CI y producción siguen mínimo privilegio y separación de funciones.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "access_review"
+   ],
+   "evidence_rule": "access_review",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Revisión de accesos con alcance, revisor y resultado"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Acceso y segregación de funciones",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-OPS-001",
+   "title": "Backups y restauración",
+   "objective": "Existe evidencia de respaldos y pruebas de restauración de sistemas en alcance.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "operation_evidence"
+   ],
+   "evidence_rule": "backup",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Evidencia de backup/restauración"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Operaciones: backups",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ITGC-OPS-002",
+   "title": "Tareas programadas y atención de fallos",
+   "objective": "Las tareas programadas críticas se monitorean y sus fallos se atienden.",
+   "domain": "itgc",
+   "version": "1.0.0",
+   "frameworks": [
+    "sox_itgc"
+   ],
+   "applicability": {
+    "requires_sox_scope": true,
+    "requires_stacks": [],
+    "note": "Aplica solo si el proyecto está en alcance SOX; con alcance desconocido el estado es UNKNOWN."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "operation_evidence"
+   ],
+   "evidence_rule": "scheduled_jobs",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Evidencia de monitoreo de jobs"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "sox_itgc",
+     "version": "ruleset-1.0",
+     "ref": "Operaciones: procesamiento programado",
+     "type": "thematic",
+     "validated": false,
+     "source": "pendiente de fuentes primarias SEC/PCAOB",
+     "note": "Ruleset propio de apoyo; pendiente de validar contra fuentes primarias SEC/PCAOB y la política de la organización. No es un requisito legal textual."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-001",
+   "title": "Control de acceso y autenticación en la aplicación",
+   "objective": "Resumen técnico de autenticación y autorización de la aplicación.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "derived",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [
+    "SEC-AUTHN-001",
+    "SEC-AUTHN-002",
+    "SEC-AUTHN-003",
+    "SEC-AUTHZ-001",
+    "SEC-AUTHZ-002"
+   ],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Estado derivado de controles SEC; no evalúa la política de control de acceso de la organización."
+   ],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.5 / A.5.15",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: autenticación segura y control de acceso. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-002",
+   "title": "Gestión de vulnerabilidades técnicas",
+   "objective": "Resumen técnico de SAST y dependencias.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "derived",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [
+    "SEC-SAST-001",
+    "SEC-DEPS-001",
+    "SEC-DEPS-002"
+   ],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.8",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de vulnerabilidades técnicas. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-003",
+   "title": "Configuración segura de infraestructura",
+   "objective": "Resumen técnico de contenedores y manifiestos.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "derived",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [
+    "SEC-INFRA-001",
+    "SEC-INFRA-002",
+    "SEC-INFRA-003",
+    "SEC-INFRA-004"
+   ],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.9",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de la configuración. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-004",
+   "title": "Registro, errores y datos sensibles",
+   "objective": "Resumen técnico de logging y manejo de datos.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "derived",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [
+    "SEC-LOG-001",
+    "SEC-LOG-002",
+    "SEC-DATA-001"
+   ],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.15",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: registro de eventos. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-005",
+   "title": "Criptografía y gestión de secretos",
+   "objective": "Resumen técnico de criptografía y secretos.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "derived",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [
+    "SEC-CRYPTO-001",
+    "SEC-CRYPTO-002",
+    "SEC-SECRETS-001"
+   ],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.24",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: uso de criptografía. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-006",
+   "title": "Codificación segura",
+   "objective": "Resumen técnico de validación, inyección, archivos y APIs.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "derived",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [],
+   "evidence_rule": null,
+   "derived_from": [
+    "SEC-INPUT-001",
+    "SEC-INPUT-002",
+    "SEC-INPUT-003",
+    "SEC-INPUT-004",
+    "SEC-API-001",
+    "SEC-API-002",
+    "SEC-API-003",
+    "SEC-API-004",
+    "SEC-FILE-001",
+    "SEC-FILE-002"
+   ],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "high",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.28",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: codificación segura. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-007",
+   "title": "Pruebas de seguridad ejecutadas sobre el commit",
+   "objective": "Existe evidencia de pruebas de seguridad en CI asociadas al commit evaluado.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "ci_run"
+   ],
+   "evidence_rule": "security_ci",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [
+    "Ejecución de CI de seguridad con commit_sha"
+   ],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.29",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: pruebas de seguridad en desarrollo y aceptación. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-008",
+   "title": "Gestión de cambios técnica (revisión y pruebas)",
+   "objective": "El cambio fue revisado y probado antes de integrarse (independiente de SOX).",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "pr_approval",
+    "ci_run"
+   ],
+   "evidence_rule": "change_mgmt",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.32",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: gestión de cambios. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-TECH-009",
+   "title": "Protección del código fuente y de ramas",
+   "objective": "El acceso y los cambios al código fuente están protegidos por la configuración del repositorio.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "branch_protection"
+   ],
+   "evidence_rule": "branch_protection",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [],
+   "default_severity": "medium",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A A.8.4",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: acceso al código fuente. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  },
+  {
+   "id": "ISO-ORG-001",
+   "title": "Evaluación de riesgos y Declaración de Aplicabilidad (evidencia organizacional)",
+   "objective": "El sistema de gestión mantiene evaluación de riesgos y SoA vigentes. No es un control técnico del sistema.",
+   "domain": "iso",
+   "version": "1.0.0",
+   "frameworks": [
+    "iso27001"
+   ],
+   "applicability": {
+    "requires_sox_scope": false,
+    "requires_stacks": [],
+    "note": "Aplica a cualquier proyecto con código de aplicación."
+   },
+   "method": "evidence",
+   "scanner_capability": null,
+   "local_check": null,
+   "evidence_types": [
+    "organizational"
+   ],
+   "evidence_rule": "organizational",
+   "derived_from": [],
+   "review_procedure": [],
+   "evidence_required": [],
+   "states": [
+    "PASS",
+    "FAIL",
+    "UNKNOWN",
+    "NOT_APPLICABLE",
+    "NOT_RUN",
+    "ERROR"
+   ],
+   "limitations": [
+    "Fuera del alcance de una revisión técnica del código; se informa como UNKNOWN sin evidencia aportada."
+   ],
+   "default_severity": "info",
+   "mappings": [
+    {
+     "framework": "iso27001",
+     "version": "2022",
+     "ref": "Annex A Cláusulas 6.1.2 / 6.1.3",
+     "type": "thematic",
+     "validated": false,
+     "source": "https://www.iso.org/standard/27001",
+     "note": "Tema: evaluación y tratamiento de riesgos, SoA. Relación temática NO validada contra el texto de ISO/IEC 27001:2022 (norma de pago, no consultada). Numeración de Annex A según conocimiento público; verificar antes de usar."
+    }
+   ]
+  }
+ ]
+}

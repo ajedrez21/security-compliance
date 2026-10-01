@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "project": {
+    "repo": "org/mi-repo"
+  },
+  "pull_request": {
+    "number": 42,
+    "head_sha": "0123456789abcdef0123456789abcdef01234567"
+  },
+  "collected_at": "2026-09-30T12:00:00Z",
+  "collector": {
+    "name": "EJEMPLO SINTÉTICO",
+    "method": "los valores no corresponden a ningún proyecto real; el skill no verifica su autenticidad"
+  },
+  "items": [
+    {
+      "id": "ev-pr-42",
+      "type": "pr_metadata",
+      "provenance": "user_supplied",
+      "source": {
+        "system": "github",
+        "ref": "pull/42"
+      },
+      "subject": "PR 42",
+      "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+      "timestamp": "2026-09-30T11:00:00Z",
+      "details": {
+        "number": 42,
+        "author": "alice",
+        "linked_tickets": [
+          "TICKET-1"
+        ],
+        "merged": false
+      }
+    },
+    {
+      "id": "ev-approval-42",
+      "type": "pr_approval",
+      "provenance": "user_supplied",
+      "source": {
+        "system": "github",
+        "ref": "pull/42/reviews"
+      },
+      "subject": "Aprobaciones del PR 42",
+      "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+      "timestamp": "2026-09-30T11:30:00Z",
+      "details": {
+        "author": "alice",
+        "merged": false,
+        "approvals": [
+          {
+            "actor": "bob",
+            "state": "approved",
+            "commit_sha": "0123456789abcdef0123456789abcdef01234567"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev-ci-42",
+      "type": "ci_run",
+      "provenance": "user_supplied",
+      "source": {
+        "system": "github-actions",
+        "ref": "runs/1"
+      },
+      "subject": "CI tests",
+      "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+      "timestamp": "2026-09-30T11:45:00Z",
+      "details": {
+        "workflow": "ci",
+        "kind": "test",
+        "conclusion": "success"
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "reviewer": {"client": "claude-code", "model": "claude-sonnet-5-5",
+               "session": "SC-001 desarrollo. Revisión del mismo agente que escribió el fixture (sesgo conocido; ver docs/VALIDATION.md)"},
+  "created_at": "2026-09-30T23:30:00Z",
+  "snapshot": {"snapshot_hash": "sha256:9192a6f4c174b0c115ac381eb6d472fe1ed9c839b2814c84edfa57b2d1a11c59"},
+  "scope_reviewed": ["src/"],
+  "control_results": [
+    {"control_id": "SEC-AUTHZ-001", "status": "PASS",
+     "rationale": "UsersController no tiene decoradores de autorización locales, pero AppModule registra JwtAuthGuard como APP_GUARD (global, default-deny): solo @Public() lo omite y ninguna ruta lo usa. Por eso la ausencia de decorador local NO es un hallazgo.",
+     "files_examined": ["src/app.module.ts", "src/jwt-auth.guard.ts", "src/users.controller.ts"],
+     "limitations": "No se probó en ejecución con distintos roles."},
+    {"control_id": "SEC-AUTHZ-002", "status": "PASS",
+     "rationale": "Para rutas con parámetro id el guard exige user.sub === req.params.id o rol admin, lo que cubre GET y DELETE /users/:id (acceso por objeto).",
+     "files_examined": ["src/jwt-auth.guard.ts", "src/users.controller.ts"],
+     "limitations": "La política depende del nombre del parámetro 'id'; rutas futuras con otro nombre quedarían solo autenticadas. No hay modelo multi-tenant en el fixture."},
+    {"control_id": "SEC-AUTHN-001", "status": "UNKNOWN",
+     "rationale": "El guard confía en req.user, pero la estrategia que verifica el JWT (firma, issuer, audience, expiración) no está en el código revisado: no se puede concluir.",
+     "files_examined": ["src/jwt-auth.guard.ts"],
+     "limitations": "Falta el módulo de autenticación (passport/estrategia JWT)."}
+  ],
+  "findings": []
+}

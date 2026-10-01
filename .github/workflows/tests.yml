@@ -1,0 +1,29 @@
+# Matriz de pruebas del propio proyecto (NO ejecutada todavía: el repositorio no se publicó).
+# Cubre Linux, macOS y Windows con Python 3.9 y 3.12 para cerrar los pendientes de docs/VALIDATION.md.
+name: tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  unittest:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ['3.9', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Pruebas (los tests que usan fakes POSIX se omiten en Windows)
+        run: python -m unittest discover -s tests -v
+      - name: Instalador en Windows (smoke)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $h = Join-Path $env:RUNNER_TEMP 'home'
+          New-Item -ItemType Directory -Force $h | Out-Null
+          python installer/sc_install.py --client cursor --scope global --home $h
+          python (Join-Path $h '.cursor/skills/security-compliance/scripts/sc.py') help

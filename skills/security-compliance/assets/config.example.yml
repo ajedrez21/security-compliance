@@ -1,0 +1,42 @@
+# Ejemplo (sintético) de .security-compliance.yml — todo es opcional.
+# 'unknown' es un valor válido: el skill no infiere aplicabilidad (p. ej. SOX).
+schema_version: 1
+project:
+  name: auto                    # 'auto' usa el nombre de la carpeta
+  repo: org/mi-repo             # opcional; se usa para validar que la evidencia pertenece al proyecto
+  criticality: unknown          # unknown | low | medium | high | critical
+  sox_scope: unknown            # unknown | yes | no  (definido por la organización)
+  contains_pii: unknown
+  contains_financial_data: unknown
+frameworks: [security, iso27001, sox_itgc, owasp_asvs]
+review:
+  language: es
+  invocation: assisted          # guía al skill ya cargado; el descubrimiento lo controla el cliente
+  mode: advisory                # advisory | enforce (enforce requiere --policy confiable)
+  asvs_target_level: 2          # objetivo de selección, NO una certificación
+network:
+  allow_external_scanners: false   # true permite que OSV-Scanner consulte api.osv.dev (nombres/versiones de paquetes)
+tools:
+  sast: auto                    # auto | semgrep | off
+  secrets: auto                 # auto | gitleaks | off
+  dependencies: auto            # auto | osv-scanner | off
+  timeout_seconds: 300
+itgc:
+  min_approvals: 1
+  emergency_change_policy: unknown   # unknown | yes | no
+gate:
+  block_severities: [critical, high]
+  required_controls: []         # p. ej. [SEC-SECRETS-001]
+  unknown_required: block       # block | incomplete
+paths:
+  include: ['.']
+  exclude: [node_modules, dist, build, .venv]
+reports:
+  directory: .security-compliance/reports
+# exceptions:                   # solo con responsable y vencimiento; nunca se generan automáticamente
+#   - id: EXC-001
+#     scope: { control_id: SEC-DEPS-002, file: legacy/package.json }
+#     reason: Dependencia heredada sin lockfile; migración planificada.
+#     owner: equipo-plataforma
+#     expires: 2026-12-31
+#     origin: TICKET-123
