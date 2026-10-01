@@ -19,7 +19,7 @@ from ..findings import make_finding
 from ..inventory import is_excluded
 from ..redact import sanitize_text
 from .base import (CLEAN, ERROR, FINDINGS, INVALID, MISSING, NO_PACKAGES, SKIPPED_POLICY, TIMEOUT, ToolAdapter,
-                   execute, finish, new_run, norm_rel)
+                   execute, finish, new_run, broken_tool, norm_rel)
 
 SEV_WORDS = {"CRITICAL": "critical", "HIGH": "high", "MODERATE": "medium", "MEDIUM": "medium", "LOW": "low"}
 
@@ -46,6 +46,8 @@ class OsvScanner(ToolAdapter):
             run["status"] = MISSING
             run["notes"].append("osv-scanner no está instalado o no está en PATH (no se instala automáticamente).")
             return finish(run, None, t0)
+        if not det["version"]:
+            return broken_tool(run, det, t0)
         run["binary"], run["version"] = det["binary"], det["version"]
         if not ctx["network_allowed"]:
             run["status"] = SKIPPED_POLICY

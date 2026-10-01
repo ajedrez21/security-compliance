@@ -7,7 +7,7 @@ Skill personal de **Security & Compliance** para Cursor, Claude Code y Codex: re
 ## Empezar en 3 pasos
 
 ```bash
-./install.sh --client cursor --scope global          # macOS/Linux      (Windows: .\install.ps1 -Client cursor -Scope global)
+./install.sh --client cursor --scope global          # macOS/Linux (--client all = Cursor + Claude Code + Codex)      (Windows: .\install.ps1 -Client cursor -Scope global)
 python3 ~/.cursor/skills/security-compliance/scripts/sc.py doctor
 # en el cliente:  /security-compliance help   →   /security-compliance diff
 ```

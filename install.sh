@@ -4,7 +4,8 @@
 #   ./install.sh --client claude --scope project --project-path /repos/mi-app
 #   ./install.sh --client codex --scope global --update
 #   ./install.sh --client cursor --scope global --uninstall
-# Opciones: --client cursor|claude|codex (repetible) --scope global|project --project-path DIR
+#   ./install.sh --client all --scope project --project-path /repos/mi-app   # Cursor + Claude Code + Codex
+# Opciones: --client cursor|claude|codex|all (repetible) --scope global|project --project-path DIR
 #           --invocation assisted|manual --update --uninstall --dry-run --force --non-interactive
 set -eu
 DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)

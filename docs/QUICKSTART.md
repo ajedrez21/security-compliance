@@ -10,6 +10,7 @@ Requisitos: Python 3.9+ (solo para el runner), git. Opcionales: Semgrep, Gitleak
 | Claude Code | `.\install.ps1 -Client claude -Scope global` | `./install.sh --client claude --scope global` |
 | Codex | `.\install.ps1 -Client codex -Scope global` | `./install.sh --client codex --scope global` |
 
+Los tres a la vez: `--client all` (`-Client all`). Aviso: Cursor también lee `.agents/skills` y `.claude/skills`, así que verá el skill más de una vez; no se borra nada.
 Por proyecto: agregue `-Scope project -ProjectPath C:\repos\mi-app` (`--scope project --project-path /repos/mi-app`). Pruebe antes con `-DryRun` / `--dry-run`. Sin administrador ni `sudo`.
 Si PowerShell bloquea el script: `powershell -ExecutionPolicy Bypass -File .\install.ps1 …` (no se cambia la política global).
 

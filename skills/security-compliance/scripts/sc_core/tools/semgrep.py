@@ -20,7 +20,7 @@ from .. import SKILL_ROOT
 from ..catalog import by_id
 from ..findings import make_finding
 from ..redact import sanitize_text
-from .base import (CLEAN, ERROR, FINDINGS, INVALID, MISSING, NO_PACKAGES, TIMEOUT, ToolAdapter, execute, finish,
+from .base import (broken_tool, CLEAN, ERROR, FINDINGS, INVALID, MISSING, NO_PACKAGES, TIMEOUT, ToolAdapter, execute, finish,
                    new_run, norm_rel)
 
 RULES_FILE = SKILL_ROOT / "rulesets" / "semgrep-local.yml"
@@ -49,6 +49,8 @@ class Semgrep(ToolAdapter):
             run["status"] = MISSING
             run["notes"].append("semgrep no está instalado o no está en PATH (no se instala automáticamente).")
             return finish(run, None, t0)
+        if not det["version"]:
+            return broken_tool(run, det, t0)
         run["binary"], run["version"] = det["binary"], det["version"]
         if not RULES_FILE.is_file():
             run["status"] = ERROR
@@ -114,7 +116,8 @@ class Semgrep(ToolAdapter):
                 raise ValueError("JSON sin 'results'")
         except ValueError:
             run["status"] = INVALID
-            run["error"] = "La salida JSON de semgrep no se pudo interpretar."
+            run["error"] = ("La salida JSON de semgrep no se pudo interpretar. stderr: "
+                            + sanitize_text(err.decode("utf-8", "replace"), 300))
             return finish(run, argv, t0)
 
         errors = data.get("errors") or []

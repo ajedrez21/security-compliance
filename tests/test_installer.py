@@ -104,6 +104,18 @@ class TestInstallPaths(InstallerCase):
         self.assertEqual(list(self.home.iterdir()), [])
 
 
+class TestClientAll(InstallerCase):
+    def test_all_installs_the_three_clients_in_one_command(self):
+        rc, out, err = install("--client", "all", "--scope", "project", "--project-path", str(self.proj), "--home", str(self.home))
+        self.assertEqual(rc, 0, err)
+        for client in ("cursor", "claude", "codex"):
+            self.assertTrue(skillcheck.validate_package(self.dest(client, "project"))["ok"], client)
+        self.assertIn("Cursor también lee", out)           # Cursor lee .agents y .claude: se avisa del solapamiento
+        rc, out, _ = install("--client", "all", "--scope", "project", "--project-path", str(self.proj), "--home", str(self.home), "--uninstall")
+        self.assertEqual(rc, 0)
+        self.assertEqual([p for p in self.proj.rglob("SKILL.md")], [])
+
+
 class TestIdempotenceUpdateRollback(InstallerCase):
     def test_reinstall_is_idempotent(self):
         install(*self.args("cursor"))
